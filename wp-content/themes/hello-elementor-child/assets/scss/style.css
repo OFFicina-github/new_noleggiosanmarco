@@ -35,4 +35,8 @@ body {
 
 .entry-title {
   display: none !important;
+}
+
+.align-items-end {
+  align-items: end;
 }/*# sourceMappingURL=style.css.map */

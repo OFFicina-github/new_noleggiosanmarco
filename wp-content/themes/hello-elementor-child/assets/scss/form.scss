@@ -1,53 +1,410 @@
 @import 'variables';
 
-.form-auto{
+.form-auto {
     background-color: $dark-blue;
     color: $white;
     padding: 48px;
     border-radius: 24px;
-    label{
-        color: $white;
+
+    label,
+    a,
+    a:hover {
+        color: $white !important;
     }
 
-    .form-container{
+    .submit-box {
+        width: 48%;
 
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: 16px;
-        justify-content: space-between;
+        label,
+        a {
+            cursor: pointer;
+            font-size: 12px;
+        }
 
-        .form-control{
-            padding: unset;
-            display: inline;
-            background-color: unset;
-            border: 0;
-            flex: 0 0 22%;
-            label{
-                margin-bottom: 8px;
+        a {
+            text-decoration: underline;
+
+            &:hover {
+                font-size: 12px;
+
+            }
+        }
+
+        .btn-invio {
+            background-color: $accent !important;
+            padding: 16px 42px !important;
+        }
+    }
+
+    &.pulmino {
+        .tipo {
+            &.active {
+
+                color: white;
+                background-color: $accent !important;
+
+                i::before {
+                    background-color: white !important;
+
+                }
+            }
+        }
+
+        .scelta-veicolo {
+            background-color: $accent !important;
+        }
+
+        i {
+            &::before {
+                background-color: $accent !important;
             }
         }
     }
 
-    button{
-        padding: 0 !important;
-        background-color: transparent !important;
+    &.furgone {
+        .tipo {
+            &.active {
+
+                color: white;
+                background-color: $secondary !important;
+
+                i::before {
+                    background-color: white !important;
+
+                }
+            }
+        }
+
+        .scelta-veicolo {
+            background-color: $secondary !important;
+        }
+
+
+        i {
+            &::before {
+                background-color: $secondary !important;
+            }
+        }
+    }
+
+    .scelta-veicolo {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        height: 64px;
+        background-color: $blue-50;
+        border-radius: 50px;
+        position: relative;
+
+        .label {
+            padding-left: 34px;
+            padding-right: 20px;
+        }
+
+        .immagine-veicolo {
+            min-width: 150px;
+
+            img {
+                position: absolute;
+                max-width: 130px;
+                right: 20px;
+                top: -20px;
+            }
+        }
+
+        .veicolo-selezione {
+            display: flex;
+            flex-direction: row;
+            padding: 4px;
+            border-radius: 50px;
+            background-color: $light-blue-5;
+            padding: 8px;
+            margin-right: 4px;
+
+            select {
+                border: 0;
+                background-color: transparent;
+                max-width: 150px;
+                min-width: 150px;
+
+                &:focus,
+                &:focus-visible {
+                    border: 0;
+                    outline: 0;
+                }
+            }
+        }
+    }
+
+    .selettore-veicolo {
+        display: flex;
+        flex-direction: row;
+        padding: 4px;
+        border-radius: 50px;
+        background-color: $light-blue-5;
+        gap: 22px;
+
+        .tipo {
+            display: flex;
+            flex-direction: row;
+            gap: 12px;
+            padding: 16px;
+            border-radius: 50px;
+            font-size: 16px;
+            color: $dark-blue;
+            cursor: pointer;
+
+            &.active {
+                color: white;
+                background-color: $blue-50;
+
+                i::before {
+                    background-color: $light-blue-5;
+
+                }
+            }
+
+
+            .auto,
+            .pulmino,
+            .furgone {
+                font-size: 22px;
+                width: 24px;
+                height: 22px;
+                background-position: 0 0;
+                background-repeat: no-repeat;
+
+                &::before {
+                    content: "";
+                    display: block;
+                    top: 0;
+                    left: 0;
+                    background-position: 0 0;
+                    background-repeat: no-repeat;
+                    background-color: $blue-50;
+                }
+            }
+
+
+            .auto {
+                background-image: url('/wp-content/themes/hello-elementor-child/assets/img/auto.svg');
+
+                &::before {
+                    width: 24px;
+                    height: 22px;
+                    mask: url('/wp-content/themes/hello-elementor-child/assets/img/auto-mask.svg');
+                    -webkit-mask: url('/wp-content/themes/hello-elementor-child/assets/img/auto-mask.svg');
+                }
+            }
+
+            .furgone {
+                background-image: url('/wp-content/themes/hello-elementor-child/assets/img/furgone.svg');
+                width: 24px;
+                height: 20px;
+
+                &::before {
+                    width: 24px;
+                    height: 20px;
+                    mask: url('/wp-content/themes/hello-elementor-child/assets/img/furgone-mask.svg');
+                    -webkit-mask: url('/wp-content/themes/hello-elementor-child/assets/img/furgone-mask.svg');
+                }
+            }
+
+            .pulmino {
+                background-image: url('/wp-content/themes/hello-elementor-child/assets/img/pulmino.svg');
+                width: 24px;
+                height: 20px;
+
+                &::before {
+                    width: 24px;
+                    height: 20px;
+                    mask: url('/wp-content/themes/hello-elementor-child/assets/img/pulmino-mask.svg');
+                    -webkit-mask: url('/wp-content/themes/hello-elementor-child/assets/img/pulmino-mask.svg');
+                }
+            }
+
+
+        }
+
+        img {
+            width: 24px;
+            height: 24px;
+        }
+    }
+}
+
+.form-container {
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 6px;
+    row-gap: 12px;
+    justify-content: flex-start;
+
+    .form-control {
+        padding: unset;
+        display: inline;
+        background-color: unset;
+        border: 0;
+        flex: 1 0 24%;
+        max-width: 250px;
+        min-width: 250px;
+
+        label {
+            margin-bottom: 8px;
+        }
+    }
+}
+
+button {
+    padding: 0 !important;
+    background-color: transparent !important;
+    border: 0 !important;
+    color: $dark-blue !important;
+}
+
+.form-field-container {
+    position: relative;
+
+    img,
+    i {
+        position: absolute;
+        top: 15px;
+        left: 14px;
+        width: 22px;
+        height: 22px;
+        color: $blue-50;
+    }
+
+    input,
+    select {
         border: 0 !important;
-        color: $dark-blue !important;
+        padding: 16px !important;
+        padding-left: 42px !important;
+        border-radius: 10px !important;
+        background-color: $light-blue-5;
     }
 
-    .form-field-container{
-        display: relative;
-        i{
-            display: absolute;
-            top:12px;
-            left: 12px;
+    .phone,
+    .email,
+    .marker,
+    .calendar {
+        font-size: 22px;
+        width: 24px;
+        height: 22px;
+        background-position: 0 0;
+        background-repeat: no-repeat;
+
+        &::before {
+            content: "";
+            display: block;
+            top: 0;
+            left: 0;
+            background-position: 0 0;
+            background-repeat: no-repeat;
+            background-color: $blue-50;
         }
-        input, select{
-            padding-left: 24px;
+    }
+
+    .phone {
+        background-image: url('/wp-content/themes/hello-elementor-child/assets/img/phone.svg');
+        width: 24px;
+        height: 24px;
+
+        &::before {
+            width: 24px;
+            height: 24px;
+            background-color: $blue-50;
+            mask: url('/wp-content/themes/hello-elementor-child/assets/img/phone-mask.svg');
+            -webkit-mask: url('/wp-content/themes/hello-elementor-child/assets/img/phone-mask.svg');
         }
     }
 
 
+    .email {
+        background-image: url('/wp-content/themes/hello-elementor-child/assets/img/email.svg');
+        width: 24px;
+        height: 20px;
 
+        &::before {
+            background-color: $blue-50;
+            width: 24px;
+            height: 20px;
+            mask: url('/wp-content/themes/hello-elementor-child/assets/img/email-mask.svg');
+            -webkit-mask: url('/wp-content/themes/hello-elementor-child/assets/img/email-mask.svg');
+        }
+    }
+
+
+    .marker {
+        background-image: url('/wp-content/themes/hello-elementor-child/assets/img/marker.svg');
+        width: 24px;
+        height: 24px;
+
+        &::before {
+            background-color: $blue-50;
+            width: 24px;
+            height: 24px;
+            mask: url('/wp-content/themes/hello-elementor-child/assets/img/marker-mask.svg');
+            -webkit-mask: url('/wp-content/themes/hello-elementor-child/assets/img/marker-mask.svg');
+        }
+    }
+
+    .calendar {
+        background-image: url('/wp-content/themes/hello-elementor-child/assets/img/calendar.svg');
+        width: 24px;
+        height: 24px;
+        z-index: 1;
+        left: 8px;
+
+        &::before {
+            background-color: $blue-50;
+            width: 24px;
+            height: 24px;
+            mask: url('/wp-content/themes/hello-elementor-child/assets/img/calendar-mask.svg');
+            -webkit-mask: url('/wp-content/themes/hello-elementor-child/assets/img/calendar-mask.svg');
+        }
+    }
+
+    .dp__input_wrap {
+        .dp__icon.dp__input_icon.dp__input_icons {
+            display: none;
+        }
+    }
+
+
+    &.double-input {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        position: relative;
+
+        .separatore {
+            width: 1px;
+            height: 80%;
+            background: lightgrey;
+            position: absolute;
+            right: 86px;
+            z-index: 1;
+            top: 10%;
+        }
+
+        select {
+            border-top-left-radius: 0 !important;
+            border-bottom-left-radius: 0 !important;
+            padding-left: 20px !important;
+            width: 100px;
+            font-size: 14px;
+            position: relative;
+        }
+
+        input {
+            font-size: 14px !important;
+            padding-right: 10px !important;
+            border-top-right-radius: 0 !important;
+            border-bottom-right-radius: 0 !important;
+        }
+    }
 }

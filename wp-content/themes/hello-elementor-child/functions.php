@@ -98,6 +98,8 @@ add_shortcode('vue_veicoli', function () {
     return '<div id="vue-app" data-component="lista"></div>';
 });
 
+wp_localize_script('vue-app', 'themeUrl', get_stylesheet_directory_uri());
+
 function enqueue_vue_app()
 {
     wp_enqueue_script('vue', 'https://unpkg.com/vue@3/dist/vue.global.prod.js', [], null, true);
@@ -119,5 +121,22 @@ add_action('wp_enqueue_scripts', 'enqueue_vue_app');
 
 add_action('wp_footer', function () {
     echo '<link rel="stylesheet" href="' . get_stylesheet_directory_uri() . '/vue-app/dist/bundle.css?ver=' . time() . '">';
-    echo '<link rel="stylesheet" href="' . get_stylesheet_directory_uri() . '/vue-app/vendor/vue-datepicker.css?ver=' . time() . '">';
+    // echo '<link rel="stylesheet" href="' . get_stylesheet_directory_uri() . '/vue-app/vendor/vue-datepicker.css?ver=' . time() . '">';
 }, 999);
+
+
+add_filter('acf/format_value', function ($value, $post_id, $field) {
+    // Se il campo è di tipo immagine e il valore è un ID
+    if ($field['type'] === 'image' && is_numeric($value)) {
+        return wp_get_attachment_url($value); // restituisce l’URL completo
+    }
+
+    // Puoi aggiungere altri tipi se serve (es. file, gallery)
+    if ($field['type'] === 'gallery' && is_array($value)) {
+        return array_map(function ($img) {
+            return is_numeric($img) ? wp_get_attachment_url($img) : $img;
+        }, $value);
+    }
+
+    return $value;
+}, 10, 3);

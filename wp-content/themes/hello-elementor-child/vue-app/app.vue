@@ -26,6 +26,8 @@ const props = defineProps({
   componentType: { type: String, default: 'form' }
 })
 
+const themeUrl = window.themeUrl || '/wp-content/themes/hello-elementor-child'
+
 const locations = ref([])
 const vehicles = ref([])
 const loading = ref(true)
@@ -33,8 +35,8 @@ const loading = ref(true)
 const fetchData = async () => {
   try {
     const [locRes, vehRes] = await Promise.all([
-      fetch(`${wpData.root}wp/v2/location?per_page=100`),
-      fetch(`${wpData.root}wp/v2/veicolo?per_page=100`)
+      fetch(`${wpData.root}wp/v2/location?per_page=100&acf_format=standard`),
+      fetch(`${wpData.root}wp/v2/veicolo?per_page=100&acf_format=standard`)
     ])
     locations.value = await locRes.json()
     vehicles.value = await vehRes.json()

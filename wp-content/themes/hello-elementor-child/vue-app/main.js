@@ -15,6 +15,8 @@ if (el) {
   // ✅ Registra il componente globalmente
   app.component('VueDatePicker', VueDatePicker)
 
+  app.config.globalProperties.$themeUrl = window.themeUrl || '/wp-content/themes/hello-elementor-child';
+
   // ✅ Monta l’app
   app.mount('#vue-app')
 }

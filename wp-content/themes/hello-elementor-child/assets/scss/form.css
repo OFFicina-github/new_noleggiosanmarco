@@ -4,40 +4,327 @@
   padding: 48px;
   border-radius: 24px;
 }
-.form-auto label {
-  color: var(--e-global-color-a5f40b2);
+.form-auto label,
+.form-auto a,
+.form-auto a:hover {
+  color: var(--e-global-color-a5f40b2) !important;
 }
-.form-auto .form-container {
+.form-auto .submit-box {
+  width: 48%;
+}
+.form-auto .submit-box label,
+.form-auto .submit-box a {
+  cursor: pointer;
+  font-size: 12px;
+}
+.form-auto .submit-box a {
+  text-decoration: underline;
+}
+.form-auto .submit-box a:hover {
+  font-size: 12px;
+}
+.form-auto .submit-box .btn-invio {
+  background-color: var(--e-global-color-accent) !important;
+  padding: 16px 42px !important;
+}
+.form-auto.pulmino .tipo.active {
+  color: white;
+  background-color: var(--e-global-color-accent) !important;
+}
+.form-auto.pulmino .tipo.active i::before {
+  background-color: white !important;
+}
+.form-auto.pulmino .scelta-veicolo {
+  background-color: var(--e-global-color-accent) !important;
+}
+.form-auto.pulmino i::before {
+  background-color: var(--e-global-color-accent) !important;
+}
+.form-auto.furgone .tipo.active {
+  color: white;
+  background-color: var(--e-global-color-secondary) !important;
+}
+.form-auto.furgone .tipo.active i::before {
+  background-color: white !important;
+}
+.form-auto.furgone .scelta-veicolo {
+  background-color: var(--e-global-color-secondary) !important;
+}
+.form-auto.furgone i::before {
+  background-color: var(--e-global-color-secondary) !important;
+}
+.form-auto .scelta-veicolo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  height: 64px;
+  background-color: var(--e-global-color-954c1db);
+  border-radius: 50px;
+  position: relative;
+}
+.form-auto .scelta-veicolo .label {
+  padding-left: 34px;
+  padding-right: 20px;
+}
+.form-auto .scelta-veicolo .immagine-veicolo {
+  min-width: 150px;
+}
+.form-auto .scelta-veicolo .immagine-veicolo img {
+  position: absolute;
+  max-width: 130px;
+  right: 20px;
+  top: -20px;
+}
+.form-auto .scelta-veicolo .veicolo-selezione {
+  display: flex;
+  flex-direction: row;
+  padding: 4px;
+  border-radius: 50px;
+  background-color: var(--e-global-color-7f6251e);
+  padding: 8px;
+  margin-right: 4px;
+}
+.form-auto .scelta-veicolo .veicolo-selezione select {
+  border: 0;
+  background-color: transparent;
+  max-width: 150px;
+  min-width: 150px;
+}
+.form-auto .scelta-veicolo .veicolo-selezione select:focus, .form-auto .scelta-veicolo .veicolo-selezione select:focus-visible {
+  border: 0;
+  outline: 0;
+}
+.form-auto .selettore-veicolo {
+  display: flex;
+  flex-direction: row;
+  padding: 4px;
+  border-radius: 50px;
+  background-color: var(--e-global-color-7f6251e);
+  gap: 22px;
+}
+.form-auto .selettore-veicolo .tipo {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 50px;
+  font-size: 16px;
+  color: var(--e-global-color-6ae0d3f);
+  cursor: pointer;
+}
+.form-auto .selettore-veicolo .tipo.active {
+  color: white;
+  background-color: var(--e-global-color-954c1db);
+}
+.form-auto .selettore-veicolo .tipo.active i::before {
+  background-color: var(--e-global-color-7f6251e);
+}
+.form-auto .selettore-veicolo .tipo .auto,
+.form-auto .selettore-veicolo .tipo .pulmino,
+.form-auto .selettore-veicolo .tipo .furgone {
+  font-size: 22px;
+  width: 24px;
+  height: 22px;
+  background-position: 0 0;
+  background-repeat: no-repeat;
+}
+.form-auto .selettore-veicolo .tipo .auto::before,
+.form-auto .selettore-veicolo .tipo .pulmino::before,
+.form-auto .selettore-veicolo .tipo .furgone::before {
+  content: "";
+  display: block;
+  top: 0;
+  left: 0;
+  background-position: 0 0;
+  background-repeat: no-repeat;
+  background-color: var(--e-global-color-954c1db);
+}
+.form-auto .selettore-veicolo .tipo .auto {
+  background-image: url("/wp-content/themes/hello-elementor-child/assets/img/auto.svg");
+}
+.form-auto .selettore-veicolo .tipo .auto::before {
+  width: 24px;
+  height: 22px;
+  mask: url("/wp-content/themes/hello-elementor-child/assets/img/auto-mask.svg");
+  -webkit-mask: url("/wp-content/themes/hello-elementor-child/assets/img/auto-mask.svg");
+}
+.form-auto .selettore-veicolo .tipo .furgone {
+  background-image: url("/wp-content/themes/hello-elementor-child/assets/img/furgone.svg");
+  width: 24px;
+  height: 20px;
+}
+.form-auto .selettore-veicolo .tipo .furgone::before {
+  width: 24px;
+  height: 20px;
+  mask: url("/wp-content/themes/hello-elementor-child/assets/img/furgone-mask.svg");
+  -webkit-mask: url("/wp-content/themes/hello-elementor-child/assets/img/furgone-mask.svg");
+}
+.form-auto .selettore-veicolo .tipo .pulmino {
+  background-image: url("/wp-content/themes/hello-elementor-child/assets/img/pulmino.svg");
+  width: 24px;
+  height: 20px;
+}
+.form-auto .selettore-veicolo .tipo .pulmino::before {
+  width: 24px;
+  height: 20px;
+  mask: url("/wp-content/themes/hello-elementor-child/assets/img/pulmino-mask.svg");
+  -webkit-mask: url("/wp-content/themes/hello-elementor-child/assets/img/pulmino-mask.svg");
+}
+.form-auto .selettore-veicolo img {
+  width: 24px;
+  height: 24px;
+}
+
+.form-container {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  gap: 16px;
-  justify-content: space-between;
+  gap: 6px;
+  row-gap: 12px;
+  justify-content: flex-start;
 }
-.form-auto .form-container .form-control {
+.form-container .form-control {
   padding: unset;
   display: inline;
   background-color: unset;
   border: 0;
-  flex: 0 0 22%;
+  flex: 1 0 24%;
+  max-width: 250px;
+  min-width: 250px;
 }
-.form-auto .form-container .form-control label {
+.form-container .form-control label {
   margin-bottom: 8px;
 }
-.form-auto button {
+
+button {
   padding: 0 !important;
   background-color: transparent !important;
   border: 0 !important;
   color: var(--e-global-color-6ae0d3f) !important;
 }
-.form-auto .form-field-container {
-  display: relative;
+
+.form-field-container {
+  position: relative;
 }
-.form-auto .form-field-container i {
-  display: absolute;
-  top: 12px;
-  left: 12px;
+.form-field-container img,
+.form-field-container i {
+  position: absolute;
+  top: 15px;
+  left: 14px;
+  width: 22px;
+  height: 22px;
+  color: var(--e-global-color-954c1db);
 }
-.form-auto .form-field-container input, .form-auto .form-field-container select {
-  padding-left: 24px;
+.form-field-container input,
+.form-field-container select {
+  border: 0 !important;
+  padding: 16px !important;
+  padding-left: 42px !important;
+  border-radius: 10px !important;
+  background-color: var(--e-global-color-7f6251e);
+}
+.form-field-container .phone,
+.form-field-container .email,
+.form-field-container .marker,
+.form-field-container .calendar {
+  font-size: 22px;
+  width: 24px;
+  height: 22px;
+  background-position: 0 0;
+  background-repeat: no-repeat;
+}
+.form-field-container .phone::before,
+.form-field-container .email::before,
+.form-field-container .marker::before,
+.form-field-container .calendar::before {
+  content: "";
+  display: block;
+  top: 0;
+  left: 0;
+  background-position: 0 0;
+  background-repeat: no-repeat;
+  background-color: var(--e-global-color-954c1db);
+}
+.form-field-container .phone {
+  background-image: url("/wp-content/themes/hello-elementor-child/assets/img/phone.svg");
+  width: 24px;
+  height: 24px;
+}
+.form-field-container .phone::before {
+  width: 24px;
+  height: 24px;
+  background-color: var(--e-global-color-954c1db);
+  mask: url("/wp-content/themes/hello-elementor-child/assets/img/phone-mask.svg");
+  -webkit-mask: url("/wp-content/themes/hello-elementor-child/assets/img/phone-mask.svg");
+}
+.form-field-container .email {
+  background-image: url("/wp-content/themes/hello-elementor-child/assets/img/email.svg");
+  width: 24px;
+  height: 20px;
+}
+.form-field-container .email::before {
+  background-color: var(--e-global-color-954c1db);
+  width: 24px;
+  height: 20px;
+  mask: url("/wp-content/themes/hello-elementor-child/assets/img/email-mask.svg");
+  -webkit-mask: url("/wp-content/themes/hello-elementor-child/assets/img/email-mask.svg");
+}
+.form-field-container .marker {
+  background-image: url("/wp-content/themes/hello-elementor-child/assets/img/marker.svg");
+  width: 24px;
+  height: 24px;
+}
+.form-field-container .marker::before {
+  background-color: var(--e-global-color-954c1db);
+  width: 24px;
+  height: 24px;
+  mask: url("/wp-content/themes/hello-elementor-child/assets/img/marker-mask.svg");
+  -webkit-mask: url("/wp-content/themes/hello-elementor-child/assets/img/marker-mask.svg");
+}
+.form-field-container .calendar {
+  background-image: url("/wp-content/themes/hello-elementor-child/assets/img/calendar.svg");
+  width: 24px;
+  height: 24px;
+  z-index: 1;
+  left: 8px;
+}
+.form-field-container .calendar::before {
+  background-color: var(--e-global-color-954c1db);
+  width: 24px;
+  height: 24px;
+  mask: url("/wp-content/themes/hello-elementor-child/assets/img/calendar-mask.svg");
+  -webkit-mask: url("/wp-content/themes/hello-elementor-child/assets/img/calendar-mask.svg");
+}
+.form-field-container .dp__input_wrap .dp__icon.dp__input_icon.dp__input_icons {
+  display: none;
+}
+.form-field-container.double-input {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  position: relative;
+}
+.form-field-container.double-input .separatore {
+  width: 1px;
+  height: 80%;
+  background: lightgrey;
+  position: absolute;
+  right: 86px;
+  z-index: 1;
+  top: 10%;
+}
+.form-field-container.double-input select {
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+  padding-left: 20px !important;
+  width: 100px;
+  font-size: 14px;
+  position: relative;
+}
+.form-field-container.double-input input {
+  font-size: 14px !important;
+  padding-right: 10px !important;
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
 }/*# sourceMappingURL=form.css.map */
