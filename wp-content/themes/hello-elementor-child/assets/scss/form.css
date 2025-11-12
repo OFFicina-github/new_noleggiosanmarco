@@ -1,0 +1,43 @@
+.form-auto {
+  background-color: var(--e-global-color-6ae0d3f);
+  color: var(--e-global-color-a5f40b2);
+  padding: 48px;
+  border-radius: 24px;
+}
+.form-auto label {
+  color: var(--e-global-color-a5f40b2);
+}
+.form-auto .form-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: space-between;
+}
+.form-auto .form-container .form-control {
+  padding: unset;
+  display: inline;
+  background-color: unset;
+  border: 0;
+  flex: 0 0 22%;
+}
+.form-auto .form-container .form-control label {
+  margin-bottom: 8px;
+}
+.form-auto button {
+  padding: 0 !important;
+  background-color: transparent !important;
+  border: 0 !important;
+  color: var(--e-global-color-6ae0d3f) !important;
+}
+.form-auto .form-field-container {
+  display: relative;
+}
+.form-auto .form-field-container i {
+  display: absolute;
+  top: 12px;
+  left: 12px;
+}
+.form-auto .form-field-container input, .form-auto .form-field-container select {
+  padding-left: 24px;
+}/*# sourceMappingURL=form.css.map */
