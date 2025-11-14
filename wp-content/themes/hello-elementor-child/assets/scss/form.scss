@@ -12,6 +12,10 @@
         color: $white !important;
     }
 
+    label,strong{
+        font-weight: 700;
+    }
+
     .submit-box {
         width: 48%;
 
@@ -41,7 +45,7 @@
             &.active {
 
                 color: white;
-                background-color: $accent !important;
+                background-color: $black-50 !important;
 
                 i::before {
                     background-color: white !important;
@@ -51,12 +55,12 @@
         }
 
         .scelta-veicolo {
-            background-color: $accent !important;
+            background-color: $black-50 !important;
         }
 
         i {
             &::before {
-                background-color: $accent !important;
+                background-color: $black-50 !important;
             }
         }
     }
@@ -66,7 +70,7 @@
             &.active {
 
                 color: white;
-                background-color: $secondary !important;
+                background-color: $blue-50 !important;
 
                 i::before {
                     background-color: white !important;
@@ -76,13 +80,13 @@
         }
 
         .scelta-veicolo {
-            background-color: $secondary !important;
+            background-color: $blue-50 !important;
         }
 
 
         i {
             &::before {
-                background-color: $secondary !important;
+                background-color: $blue-50 !important;
             }
         }
     }
@@ -93,7 +97,7 @@
         align-items: center;
         gap: 10px;
         height: 64px;
-        background-color: $blue-50;
+        background-color: $light-blue;
         border-radius: 50px;
         position: relative;
 
@@ -157,7 +161,7 @@
 
             &.active {
                 color: white;
-                background-color: $blue-50;
+                background-color: $light-blue;
 
                 i::before {
                     background-color: $light-blue-5;
@@ -182,7 +186,7 @@
                     left: 0;
                     background-position: 0 0;
                     background-repeat: no-repeat;
-                    background-color: $blue-50;
+                    background-color: $light-blue;
                 }
             }
 
@@ -252,6 +256,11 @@
         max-width: 250px;
         min-width: 250px;
 
+        &.full {
+            flex: 1 0 47%;
+            max-width: 506px;
+        }
+
         label {
             margin-bottom: 8px;
         }
@@ -275,7 +284,7 @@ button {
         left: 14px;
         width: 22px;
         height: 22px;
-        color: $blue-50;
+        color: $light-blue;
     }
 
     input,
@@ -304,7 +313,7 @@ button {
             left: 0;
             background-position: 0 0;
             background-repeat: no-repeat;
-            background-color: $blue-50;
+            background-color: $light-blue;
         }
     }
 
@@ -316,7 +325,7 @@ button {
         &::before {
             width: 24px;
             height: 24px;
-            background-color: $blue-50;
+            background-color: $light-blue;
             mask: url('/wp-content/themes/hello-elementor-child/assets/img/phone-mask.svg');
             -webkit-mask: url('/wp-content/themes/hello-elementor-child/assets/img/phone-mask.svg');
         }
@@ -329,7 +338,7 @@ button {
         height: 20px;
 
         &::before {
-            background-color: $blue-50;
+            background-color: $light-blue;
             width: 24px;
             height: 20px;
             mask: url('/wp-content/themes/hello-elementor-child/assets/img/email-mask.svg');
@@ -344,7 +353,7 @@ button {
         height: 24px;
 
         &::before {
-            background-color: $blue-50;
+            background-color: $light-blue;
             width: 24px;
             height: 24px;
             mask: url('/wp-content/themes/hello-elementor-child/assets/img/marker-mask.svg');
@@ -360,7 +369,7 @@ button {
         left: 8px;
 
         &::before {
-            background-color: $blue-50;
+            background-color: $light-blue;
             width: 24px;
             height: 24px;
             mask: url('/wp-content/themes/hello-elementor-child/assets/img/calendar-mask.svg');
@@ -405,6 +414,67 @@ button {
             padding-right: 10px !important;
             border-top-right-radius: 0 !important;
             border-bottom-right-radius: 0 !important;
+        }
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    .form-auto {
+
+        .form-container {
+            justify-content: space-between;
+
+            .form-control {
+                flex: 1 0 30%;
+                max-width: unset;
+
+                &.full {
+                    flex: 1 0 30%;
+
+                }
+            }
+        }
+
+        .box-veicoli {
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 40px !important;
+            padding-bottom: 10px;
+
+            .tipo-veicolo {
+                display: flex;
+                gap: 0px;
+                flex-direction: column;
+                align-content: center;
+            }
+
+            .scelta-veicolo {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 10px;
+                height: 64px;
+                border-radius: 50px;
+                position: relative;
+            }
+
+        }
+
+        .submit-box {
+            width: 100%;
+        }
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    .form-auto {
+        .submit-box {
+            width: 100%;
+
+            >.d-flex {
+                flex-direction: column;
+                align-items: flex-start !important;
+            }
         }
     }
 }

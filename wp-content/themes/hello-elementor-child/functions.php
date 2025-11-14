@@ -140,3 +140,111 @@ add_filter('acf/format_value', function ($value, $post_id, $field) {
 
     return $value;
 }, 10, 3);
+
+
+add_action('rest_api_init', function () {
+    register_rest_route('noleggio/v1', '/preventivo', [
+        'methods' => 'POST',
+        'callback' => 'noleggio_handle_preventivo',
+        'permission_callback' => '__return_true', // meglio poi usare nonce
+    ]);
+});
+
+wp_localize_script('vue-app', 'wpData', [
+    'root' => esc_url_raw(rest_url()),
+    'nonce' => wp_create_nonce('wp_rest'),
+]);
+
+function noleggio_handle_preventivo(WP_REST_Request $request)
+{
+    $data = $request->get_json_params();
+
+    // 1. invio email
+    noleggio_invia_email_preventivo($data);
+
+    // 2. salva su Google Sheets
+    noleggio_invia_a_google_sheets($data);
+
+    // eventualmente: log, salvataggio custom post, ecc.
+
+    return new WP_REST_Response(['success' => true], 200);
+}
+
+function noleggio_invia_email_preventivo($dati)
+{
+    $to = 'daniele@offitaly.it'; // cambia
+    $subject = 'Nuova richiesta preventivo';
+    $headers = ['Content-Type: text/html; charset=UTF-8'];
+
+    ob_start();
+    $template = locate_template('email-preventivo.php');
+    if ($template) {
+        include $template;
+    }
+    $body = ob_get_clean();
+
+    wp_mail($to, $subject, $body, $headers);
+}
+
+
+function noleggio_invia_a_google_sheets($dati)
+{
+    $url = 'https://script.google.com/macros/s/AKfycbwQTfyOPYxsqzxJXTVvvcXFw2tu7WAn2phjUOYub7N4DT_nGdMZ4TeEO2pjAZHKYj3c/exec'; // URL dello script
+
+
+    $payload = [
+        'dataPrenotazione' => date('d/m/Y H:i:s'),
+        'email' => $dati['email'] ?? '',
+        'veicolo' => $dati['veicoloSelezionato']['acf']['nome'] ?? '',
+        'tipoVeicolo' => $dati['tipoSelezionato'] ?? '',
+        'ritiro' => $dati['ritiro'] ?? '',
+        'dataRitiro' => $dati['dataRitiro'] ?? '',
+        'oraRitiro' => $dati['oraRitiro'] ?? '',
+        'riconsegna' => $dati['riconsegna'] ?? '',
+        'dataRiconsegna' => $dati['dataRiconsegna'] ?? '',
+        'oraRiconsegna' => $dati['oraRiconsegna'] ?? '',
+        'telefono' => $dati['telefono'] ?? '',
+    ];
+
+
+    // print_r(($row));
+    // print_r(($dati));
+    // print_r(gettype($row));
+    // print_r(gettype($dati));
+    // print_r("salve");
+    // print_r(wp_json_encode($row));
+
+    // print_r(wp_json_encode($payload));
+    // die();
+
+
+    wp_remote_post($url, [
+        'body' => wp_json_encode($payload),
+        'headers' => ['Content-Type' => 'application/json'],
+        'timeout' => 10,
+    ]);
+}
+
+
+add_action('wp_enqueue_scripts', function () {
+
+    // carica il bundle JS VUE
+    wp_enqueue_script(
+        'vue-app',
+        get_stylesheet_directory_uri() . '/vue-app/dist/bundle.js',
+        [],
+        filemtime(get_stylesheet_directory() . '/vue-app/dist/bundle.js'),
+        true
+    );
+
+    // passa nonce + URL API al frontend
+    wp_localize_script(
+        'vue-app',
+        'wpData',
+        [
+            'root' => esc_url_raw(rest_url()),
+            'nonce' => wp_create_nonce('wp_rest')
+        ]
+    );
+
+});

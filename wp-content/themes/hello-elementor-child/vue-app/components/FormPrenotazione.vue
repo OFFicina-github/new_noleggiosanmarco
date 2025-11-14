@@ -1,16 +1,9 @@
 <template>
-
-  <!-- <ul>
-    <li v-for="veh in vehicles" :key="veh.id">
-      {{ veh}}
-    </li>
-  </ul> -->
-
   <form :class="['form-auto', tipoSelezionato.toLowerCase()]" name="preventivo-form" id="preventivo-form">
-    <!-- Selettore tipo veicolo -->
-    <div class="align-items-end d-flex flex-row justify-content-between mb-3 align-end">
+    <!-- Tipo veicolo -->
+    <div class="box-veicoli align-items-end d-flex flex-row justify-content-between mb-3 align-end">
       <div class="tipo-veicolo">
-        <p class="pb-2">Scegli la tipologia di veicolo</p>
+        <p class="pb-2"><strong>Scegli la tipologia di veicolo</strong></p>
         <div class="selettore-veicolo">
           <div v-for="tipo in tipi" :key="tipo" :class="['tipo', { active: tipoSelezionato === tipo }]"
             @click="tipoSelezionato = tipo">
@@ -21,55 +14,53 @@
       </div>
 
       <div class="scelta-veicolo">
-        <p class="label">Scegli l'auto</p>
+        <p class="label"><strong>Scegli il veicolo</strong></p>
         <div class="veicolo-selezione">
-
-          <select id="veicolo" v-model="veicoloSelezionato">
+          <select id="veicolo" v-model="veicoloSelezionato" required>
+            <option disabled value="">Seleziona...</option>
             <option v-for="v in veicoliFiltrati" :key="v.id" :value="v">
               {{ v.acf.nome }}
             </option>
           </select>
 
           <div class="immagine-veicolo">
-            <div v-if="veicoloSelezionato && veicoloSelezionato.acf?.copertina">
-              <img :src="veicoloSelezionato.acf.copertina" alt="Immagine veicolo" />
-            </div>
-            <div v-else class="placeholder-immagine"></div>
+            <img v-if="veicoloSelezionato && veicoloSelezionato.acf?.copertina" :src="veicoloSelezionato.acf.copertina"
+              alt="Immagine veicolo" />
+            <img v-else:src="themeUrl + '/assets/img/missing-car.svg'" alt="Logo" />
           </div>
-
         </div>
       </div>
     </div>
 
-    <div class="form-container">
-      <!-- Location -->
-      <!-- <label for="same_location">
-          Riconsegna nello stesso ufficio
-          <input name="same_location" type="checkbox" v-model="stessoUfficio" />
-        </label> -->
+    <!-- Checkbox stesso punto -->
+    <div class="mb-3">
+      <label class="d-flex align-items-center gap-2 pointer">
+        <input type="checkbox" v-model="stessoUfficio" />
+        <span style="font-size: 12px;">Riconsegna nello stesso punto</span>
+      </label>
+    </div>
 
-      <div class="form-control">
+    <!-- Location -->
+    <div class="form-container align-items-end">
+
+      <div class="form-control" :class="{ full: stessoUfficio }">
         <label for="location_ritiro">Punto di ritiro</label>
         <div class="form-field-container">
-          <i class="marker" alt="Logo"></i>
-          <select name="location_ritiro" v-model="ritiro">
+          <i class="marker"></i>
+          <select name="location_ritiro" v-model="ritiro" required>
             <option disabled value="">Seleziona...</option>
-            <option v-for="loc in locations" :key="loc.id" :value="loc.acf.nome">
-              {{ loc.acf.nome }}
-            </option>
+            <option v-for="loc in locations" :key="loc.id" :value="loc.acf.nome">{{ loc.acf.nome }}</option>
           </select>
         </div>
       </div>
 
-      <div class="form-control">
+      <div v-if="!stessoUfficio" class="form-control">
         <label for="location_consegna">Punto di riconsegna</label>
         <div class="form-field-container">
-          <i class="marker" alt="Logo"></i>
-          <select for="location_consegna" v-model="riconsegna" :disabled="stessoUfficio">
+          <i class="marker"></i>
+          <select name="location_consegna" v-model="riconsegna" required>
             <option disabled value="">Seleziona...</option>
-            <option v-for="loc in locations" :key="loc.id" :value="loc.acf.nome">
-              {{ loc.acf.nome }}
-            </option>
+            <option v-for="loc in locations" :key="loc.id" :value="loc.acf.nome">{{ loc.acf.nome }}</option>
           </select>
         </div>
       </div>
@@ -78,17 +69,15 @@
       <div class="form-control datetime-hour">
         <label>Data ritiro</label>
         <div class="form-field-container double-input">
-          <i class="calendar" alt="Logo"></i>
-          <VueDatePicker v-model="dataRitiro" :time-config="{ enableTimePicker: false }" :enableTimePicker="false"
-            :enable-time-picker="false" :hide-time-header="true" :disabled-dates="giorniDisabilitati" :min-date="oggi"
-            :format="'dd/MM/yyyy'" :model-type="'format'" placeholder="Data ritiro" :locale="it" />
+          <i class="calendar"></i>
+          <VueDatePicker v-model="dataRitiro" :disabled="!ritiro" :time-config="{ enableTimePicker: false }"
+            :hide-time-header="true" :disabled-dates="giorniDisabilitatiRitiro" :min-date="oggi" :format="'dd/MM/yyyy'"
+            :model-type="'format'" placeholder="Data ritiro" :locale="it" />
           <div class="separatore"></div>
 
-          <select v-model="oraRitiro" placeholder="orario ritiro">
+          <select v-model="oraRitiro" :disabled="!ritiro || !dataRitiro" required>
             <option disabled value="">Ora</option>
-            <option v-for="ora in orariDisponibiliGenerico" :key="ora" :value="ora">
-              {{ ora }}
-            </option>
+            <option v-for="ora in orariDisponibiliGenerico" :key="ora" :value="ora">{{ ora }}</option>
           </select>
         </div>
       </div>
@@ -96,59 +85,54 @@
       <div class="form-control datetime-hour">
         <label>Data riconsegna</label>
         <div class="form-field-container double-input">
-          <img :src="themeUrl + '/assets/img/form-calendar.svg'" alt="Logo" />
-          <i class="calendar" alt="Logo"></i>
-          <VueDatePicker v-model="dataRiconsegna" :time-config="{ enableTimePicker: false }" :hide-time-header="true"
-            :disabled-dates="giorniDisabilitati" :min-date="dataRitiro || oggi" format="dd/MM/yyyy"
-            placeholder="Data consegna" />
+          <i class="calendar"></i>
+          <VueDatePicker v-model="dataRiconsegna" :disabled="!ritiro || (!stessoUfficio && !riconsegna)"
+            :time-config="{ enableTimePicker: false }" :hide-time-header="true"
+            :disabled-dates="giorniDisabilitatiRiconsegna" :min-date="dataRitiro || oggi" format="dd/MM/yyyy"
+            placeholder="Data riconsegna" :locale="it" />
           <div class="separatore"></div>
-          <!-- @update:model-value="aggiornaOrariDisponibili('riconsegna')" -->
-          <select v-model="oraRiconsegna">
+
+          <select v-model="oraRiconsegna" :disabled="!ritiro || (!stessoUfficio && !riconsegna) || !dataRiconsegna"
+            required>
             <option disabled value="">Ora</option>
-            <option v-for="ora in orariDisponibiliGenerico" :key="ora" :value="ora">
-              {{ ora }}
-            </option>
+            <option v-for="ora in orariDisponibiliGenerico" :key="ora" :value="ora">{{ ora }}</option>
           </select>
         </div>
       </div>
 
+      <!-- Contatti -->
       <div class="form-control">
         <div class="form-field-container">
-          <i class="phone" alt="Logo"></i>
-          <input type="tel" v-model="telefono" placeholder="Telefono" />
+          <i class="phone"></i>
+          <input type="tel" v-model.trim="telefono" placeholder="Telefono" required />
         </div>
       </div>
 
       <div class="form-control">
         <div class="form-field-container">
-          <i class="email" alt="Logo"></i>
-          <input type="email" v-model="email" placeholder="Email" />
+          <i class="email"></i>
+          <input type="email" v-model.trim="email" placeholder="Email" required />
         </div>
       </div>
 
-      <div></div>
-
-      <div class="submit-box ">
+      <!-- Submit -->
+      <div class="submit-box">
         <div class="d-flex align-items-center gap-3 justify-content-end">
-          <!-- Checkbox Privacy -->
           <label class="d-flex align-items-center gap-2">
             <input type="checkbox" v-model="accettaPrivacy" />
             <span>Accetto la <a href="/privacy-policy" target="_blank">privacy policy</a></span>
           </label>
 
-          <!-- Pulsante Submit -->
-          <button type="button" class="btn btn-ptimary btn-invio" @click="inviaRichiesta" :disabled="!accettaPrivacy">
+          <button type="button" class="btn btn-primary btn-invio" @click="inviaRichiesta" :disabled="!formValido">
             Richiedi preventivo
           </button>
         </div>
       </div>
-
     </div>
-
-    <!-- <pre>{{ statoForm }}</pre> -->
-
-
   </form>
+
+  <pre>{{ statoForm }}</pre>
+
 </template>
 
 <script setup>
@@ -164,9 +148,10 @@ const props = defineProps({
 
 const themeUrl = getCurrentInstance().appContext.config.globalProperties.$themeUrl;
 
-// Stato base
+// Stati base
 const tipi = ["Auto", "Furgone", "Pulmino"];
 const tipoSelezionato = ref("Auto");
+const veicoloSelezionato = ref(null);
 const ritiro = ref("");
 const riconsegna = ref("");
 const stessoUfficio = ref(false);
@@ -176,126 +161,201 @@ const dataRiconsegna = ref(null);
 const oraRiconsegna = ref("");
 const telefono = ref("");
 const email = ref("");
-const veicoloSelezionato = ref(null);
+const accettaPrivacy = ref(false);
+
 const oggi = new Date();
 
+// Regex semplice per validare l'email
+const emailValida = computed(() => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim()));
+
+// Orari generici
 const orariDisponibiliGenerico = ref([
-  "9:00",
-  "9:30",
-  "10:00",
-  "10:30",
-  "11:00",
-  "11:30",
-  "12:00",
-  "12:30",
-  "13:00",
-  "13:30",
-  "14:00",
-  "14:30",
-  "15:00",
-  "15:30",
-  "16:00",
-  "16:30",
-  "17:00",
-  "17:30",
-  "18:00",
+  "9:00", "9:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30",
+  "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30",
+  "17:00", "17:30", "18:00",
 ]);
 
-const veicoliFiltrati = computed(() =>
-  props.vehicles.filter(
-    (v) => v.acf.tipo?.toLowerCase() === tipoSelezionato.value.toLowerCase()
-  )
-);
-
-watch(
-  () => props.vehicles,
-  (nuoviVeicoli) => {
-    if (nuoviVeicoli && nuoviVeicoli.length > 0 && !veicoloSelezionato.value) {
-      const primaAuto = nuoviVeicoli.find(
-        (v) => v.acf.tipo?.toLowerCase() === 'auto'
-      )
-      if (primaAuto) veicoloSelezionato.value = primaAuto;
-    }
-  },
-  { immediate: true }
-)
-
-// Computed: dati location correnti
-const locationRitiro = computed(() => locations.find((l) => l.id === ritiro.value));
-const locationRiconsegna = computed(() =>
-  locations.find((l) => l.id === riconsegna.value)
-);
-
-// Disabilita giorni non disponibili
-const giorniDisabilitati = (date) => {
-  const oggi = new Date();
-  if (date < oggi.setHours(0, 0, 0, 0)) return true; // niente date passate
-  // Se location selezionata, controlla se aperta
-  if (!locationRitiro.value) return false;
-  const giorniDisponibili = locationRitiro.value.acf.giorni_disponibili || []; // es: ["Lunedì","Martedì"]
-  const giorniSettimana = [
-    "Domenica",
-    "Lunedì",
-    "Martedì",
-    "Mercoledì",
-    "Giovedì",
-    "Venerdì",
-    "Sabato",
-  ];
-  const giorno = giorniSettimana[date.getDay()];
-  return !giorniDisponibili.includes(giorno);
-};
-
-// Orari dinamici in base alla location
-const orariDisponibiliRitiro = ref([]);
-const orariDisponibiliRiconsegna = ref([]);
-// DA FARE BENE
-
-
-
-// Sincronizza riconsegna = ritiro se “stesso ufficio”
-watch(stessoUfficio, (val) => {
-  if (val) riconsegna.value = ritiro.value;
+// 🔥 Filtro + ordinamento per ID crescente
+const veicoliFiltrati = computed(() => {
+  return props.vehicles
+    .filter(
+      v => v.acf.tipo?.toLowerCase() === tipoSelezionato.value.toLowerCase()
+    )
+    .sort((a, b) => Number(a.acf.id) - Number(b.acf.id)); // Ordinamento per ID
 });
 
-watch(dataRitiro, (newVal) => {
-  if (newVal) {
-    const d = new Date(newVal);
-    const day = String(d.getDate()).padStart(2, "0");
-    const month = String(d.getMonth() + 1).padStart(2, "0");
-    const year = d.getFullYear();
-    dataRitiro = `${day}/${month}/${year}`;
-  }
-});
-
-const formatDate = (date) => {
-  const d = new Date(date);
-  const day = String(d.getDate()).padStart(2, "0");
-  const month = String(d.getMonth() + 1).padStart(2, "0");
-  const year = d.getFullYear();
-  return `${day}/${month}/${year}`;
-};
-
-watch(veicoliFiltrati, (nuoviVeicoli) => {
-  if (nuoviVeicoli.length > 0) {
-    veicoloSelezionato.value = nuoviVeicoli[0];
+// 🔥 Quando cambia tipo o cambiano i veicoli filtrati -> seleziona quello con ID più basso
+watch(veicoliFiltrati, (nuovi) => {
+  if (nuovi?.length > 0) {
+    veicoloSelezionato.value = nuovi[0]; // primo della lista ordinata = ID più basso
   } else {
     veicoloSelezionato.value = null;
   }
+}, { immediate: true });
+
+const giorniDisabilitatiRitiro = (date) => {
+  const today = new Date();
+  if (date < today.setHours(0, 0, 0, 0)) return true;
+  if (!ritiro.value) return true;
+
+  const loc = props.locations.find(l => l.acf.nome === ritiro.value);
+  if (!loc || !loc.acf.aperture) return true;
+
+  // Normalizzazione: elimina accenti e trasforma in minuscolo
+  const normalize = (str) =>
+    str
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "");
+
+  // Giorni aperti normalizzati
+  const giorniAperti = loc.acf.aperture.map(a => normalize(a.giorno));
+
+  // Giorno attuale normalizzato
+  const giorniSettimana = [
+    "domenica",
+    "lunedi",
+    "martedi",
+    "mercoledi",
+    "giovedi",
+    "venerdi",
+    "sabato"
+  ];
+  const giornoCorrente = giorniSettimana[date.getDay()];
+
+  return !giorniAperti.includes(giornoCorrente);
+};
+
+const giorniDisabilitatiRiconsegna = (date) => {
+  const today = new Date();
+  if (date < today.setHours(0, 0, 0, 0)) return true;
+
+  // Normalizza stringhe (rimuove accenti)
+  const normalize = (str) =>
+    str
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "");
+
+  // Scegli la location corretta
+  let loc;
+
+  if (stessoUfficio.value) {
+    // Riconsegna = ritiro
+    loc = props.locations.find(l => l.acf.nome === ritiro.value);
+  } else {
+    // Location selezionata nel campo Riconsegna
+    loc = props.locations.find(l => l.acf.nome === riconsegna.value);
+  }
+
+  // Se non c’è la location -> disabilita tutto
+  if (!loc || !loc.acf.aperture) return true;
+
+  // Giorni aperti normalizzati
+  const giorniAperti = loc.acf.aperture.map(a => normalize(a.giorno));
+
+  // Giorno corrente del calendario normalizzato
+  const giorniSettimana = [
+    "domenica",
+    "lunedi",
+    "martedi",
+    "mercoledi",
+    "giovedi",
+    "venerdi",
+    "sabato"
+  ];
+
+  const giornoCorrente = giorniSettimana[date.getDay()];
+
+  // Ritorna TRUE se il giorno va disabilitato
+  return !giorniAperti.includes(giornoCorrente);
+};
+
+const formatDate = date => {
+  const d = new Date(date);
+  const day = String(d.getDate()).padStart(2, '0');
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const year = d.getFullYear();
+  return `${day}/${month}/${year}`;
+}
+
+// Validazione generale
+const formValido = computed(() => {
+  const campiBase = [
+    tipoSelezionato.value,
+    veicoloSelezionato.value,
+    ritiro.value,
+    dataRitiro.value,
+    oraRitiro.value,
+    telefono.value.trim(),
+    emailValida.value,
+    accettaPrivacy.value,
+  ];
+
+  if (!stessoUfficio.value) {
+    campiBase.push(riconsegna.value, dataRiconsegna.value, oraRiconsegna.value);
+  }
+
+  return campiBase.every(Boolean);
 });
+
+// Invio form
+async function inviaRichiesta() {
+  if (!formValido.value) {
+    alert("Compila tutti i campi obbligatori in modo corretto prima di procedere.");
+    return;
+  }
+
+  const payload = statoForm.value; // l'oggetto che hai già
+
+  try {
+    const res = await fetch(`${wpData.root}noleggio/v1/preventivo`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-WP-Nonce': wpData.nonce
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (!res.ok) {
+      throw new Error('Errore nella risposta del server');
+    }
+
+    // 3️⃣ DataLayer.push
+    // window.dataLayer = window.dataLayer || [];
+    // window.dataLayer.push({
+    //   event: 'preventivo_inviato',
+    //   mezzo: payload.tipoSelezionato,
+    //   veicolo: payload.veicoloSelezionato?.acf?.nome || '',
+    //   location_ritiro: payload.ritiro,
+    //   location_riconsegna: payload.riconsegna,
+    // });
+
+    // 4️⃣ Redirect
+    // window.location.href = '/grazie/'; // pagina di thank-you
+
+  } catch (err) {
+    console.error('Errore invio preventivo:', err);
+    alert('Si è verificato un errore, riprova più tardi.');
+  }
+}
+
 
 // Stato del form (debug)
 const statoForm = computed(() => ({
   tipoSelezionato: tipoSelezionato.value,
   ritiro: ritiro.value,
-  riconsegna: riconsegna.value,
+  riconsegna: stessoUfficio.value ? ritiro.value : riconsegna.value,
+  stessoUfficio: stessoUfficio.value,
   dataRitiro: formatDate(dataRitiro.value),
-  // dataRitiro: dataRitiro.value,
   oraRitiro: oraRitiro.value,
-  dataRiconsegna: dataRiconsegna.value,
+  dataRiconsegna: dataRiconsegna.value ? formatDate(dataRiconsegna.value) : null,
   oraRiconsegna: oraRiconsegna.value,
   telefono: telefono.value,
   email: email.value,
+  accettaPrivacy: accettaPrivacy.value,
   veicoloSelezionato: veicoloSelezionato.value,
 }));
+
 </script>

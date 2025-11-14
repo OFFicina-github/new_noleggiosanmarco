@@ -9,6 +9,9 @@
 .form-auto a:hover {
   color: var(--e-global-color-a5f40b2) !important;
 }
+.form-auto label, .form-auto strong {
+  font-weight: 700;
+}
 .form-auto .submit-box {
   width: 48%;
 }
@@ -29,29 +32,29 @@
 }
 .form-auto.pulmino .tipo.active {
   color: white;
-  background-color: var(--e-global-color-accent) !important;
+  background-color: #7A8385 !important;
 }
 .form-auto.pulmino .tipo.active i::before {
   background-color: white !important;
 }
 .form-auto.pulmino .scelta-veicolo {
-  background-color: var(--e-global-color-accent) !important;
+  background-color: #7A8385 !important;
 }
 .form-auto.pulmino i::before {
-  background-color: var(--e-global-color-accent) !important;
+  background-color: #7A8385 !important;
 }
 .form-auto.furgone .tipo.active {
   color: white;
-  background-color: var(--e-global-color-secondary) !important;
+  background-color: var(--e-global-color-954c1db) !important;
 }
 .form-auto.furgone .tipo.active i::before {
   background-color: white !important;
 }
 .form-auto.furgone .scelta-veicolo {
-  background-color: var(--e-global-color-secondary) !important;
+  background-color: var(--e-global-color-954c1db) !important;
 }
 .form-auto.furgone i::before {
-  background-color: var(--e-global-color-secondary) !important;
+  background-color: var(--e-global-color-954c1db) !important;
 }
 .form-auto .scelta-veicolo {
   display: flex;
@@ -59,7 +62,7 @@
   align-items: center;
   gap: 10px;
   height: 64px;
-  background-color: var(--e-global-color-954c1db);
+  background-color: var(--e-global-color-bf33bd2);
   border-radius: 50px;
   position: relative;
 }
@@ -115,7 +118,7 @@
 }
 .form-auto .selettore-veicolo .tipo.active {
   color: white;
-  background-color: var(--e-global-color-954c1db);
+  background-color: var(--e-global-color-bf33bd2);
 }
 .form-auto .selettore-veicolo .tipo.active i::before {
   background-color: var(--e-global-color-7f6251e);
@@ -138,7 +141,7 @@
   left: 0;
   background-position: 0 0;
   background-repeat: no-repeat;
-  background-color: var(--e-global-color-954c1db);
+  background-color: var(--e-global-color-bf33bd2);
 }
 .form-auto .selettore-veicolo .tipo .auto {
   background-image: url("/wp-content/themes/hello-elementor-child/assets/img/auto.svg");
@@ -193,6 +196,10 @@
   max-width: 250px;
   min-width: 250px;
 }
+.form-container .form-control.full {
+  flex: 1 0 47%;
+  max-width: 506px;
+}
 .form-container .form-control label {
   margin-bottom: 8px;
 }
@@ -214,7 +221,7 @@ button {
   left: 14px;
   width: 22px;
   height: 22px;
-  color: var(--e-global-color-954c1db);
+  color: var(--e-global-color-bf33bd2);
 }
 .form-field-container input,
 .form-field-container select {
@@ -244,7 +251,7 @@ button {
   left: 0;
   background-position: 0 0;
   background-repeat: no-repeat;
-  background-color: var(--e-global-color-954c1db);
+  background-color: var(--e-global-color-bf33bd2);
 }
 .form-field-container .phone {
   background-image: url("/wp-content/themes/hello-elementor-child/assets/img/phone.svg");
@@ -254,7 +261,7 @@ button {
 .form-field-container .phone::before {
   width: 24px;
   height: 24px;
-  background-color: var(--e-global-color-954c1db);
+  background-color: var(--e-global-color-bf33bd2);
   mask: url("/wp-content/themes/hello-elementor-child/assets/img/phone-mask.svg");
   -webkit-mask: url("/wp-content/themes/hello-elementor-child/assets/img/phone-mask.svg");
 }
@@ -264,7 +271,7 @@ button {
   height: 20px;
 }
 .form-field-container .email::before {
-  background-color: var(--e-global-color-954c1db);
+  background-color: var(--e-global-color-bf33bd2);
   width: 24px;
   height: 20px;
   mask: url("/wp-content/themes/hello-elementor-child/assets/img/email-mask.svg");
@@ -276,7 +283,7 @@ button {
   height: 24px;
 }
 .form-field-container .marker::before {
-  background-color: var(--e-global-color-954c1db);
+  background-color: var(--e-global-color-bf33bd2);
   width: 24px;
   height: 24px;
   mask: url("/wp-content/themes/hello-elementor-child/assets/img/marker-mask.svg");
@@ -290,7 +297,7 @@ button {
   left: 8px;
 }
 .form-field-container .calendar::before {
-  background-color: var(--e-global-color-954c1db);
+  background-color: var(--e-global-color-bf33bd2);
   width: 24px;
   height: 24px;
   mask: url("/wp-content/themes/hello-elementor-child/assets/img/calendar-mask.svg");
@@ -327,4 +334,50 @@ button {
   padding-right: 10px !important;
   border-top-right-radius: 0 !important;
   border-bottom-right-radius: 0 !important;
+}
+
+@media screen and (max-width: 1200px) {
+  .form-auto .form-container {
+    justify-content: space-between;
+  }
+  .form-auto .form-container .form-control {
+    flex: 1 0 30%;
+    max-width: unset;
+  }
+  .form-auto .form-container .form-control.full {
+    flex: 1 0 30%;
+  }
+  .form-auto .box-veicoli {
+    flex-wrap: wrap;
+    gap: 30px;
+    margin-bottom: 40px !important;
+    padding-bottom: 10px;
+  }
+  .form-auto .box-veicoli .tipo-veicolo {
+    display: flex;
+    gap: 0px;
+    flex-direction: column;
+    align-content: center;
+  }
+  .form-auto .box-veicoli .scelta-veicolo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    height: 64px;
+    border-radius: 50px;
+    position: relative;
+  }
+  .form-auto .submit-box {
+    width: 100%;
+  }
+}
+@media screen and (max-width: 1200px) {
+  .form-auto .submit-box {
+    width: 100%;
+  }
+  .form-auto .submit-box > .d-flex {
+    flex-direction: column;
+    align-items: flex-start !important;
+  }
 }/*# sourceMappingURL=form.css.map */

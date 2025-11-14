@@ -39,4 +39,8 @@ body {
 
 .align-items-end {
   align-items: end;
+}
+
+.pointer {
+  cursor: pointer;
 }/*# sourceMappingURL=style.css.map */
